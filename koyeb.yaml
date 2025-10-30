@@ -1,0 +1,4 @@
+type: docker
+name: uptimekuma-b2
+docker:
+  file: Dockerfile
