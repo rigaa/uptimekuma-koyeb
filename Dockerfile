@@ -1,4 +1,4 @@
-FROM louislam/uptimekuma:latest
+FROM louislam/uptime-kuma:2.0.2
 
 # Install Python and B2 CLI
 RUN apt-get update && apt-get install -y python3 python3-pip
