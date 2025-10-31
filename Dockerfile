@@ -1,5 +1,8 @@
 FROM louislam/uptime-kuma:1
 
+# Switch to root untuk install dependencies
+USER root
+
 # Install dependencies for B2 CLI
 RUN apt-get update && apt-get install -y \
     python3 \
@@ -18,19 +21,19 @@ RUN /app/venv/bin/pip install --no-cache-dir b2
 RUN mkdir -p /app/scripts
 
 # Copy scripts
-COPY scripts/ /app/scripts/
+COPY scripts/* /app/scripts/
 
 # Make scripts executable
 RUN chmod +x /app/scripts/*.sh
 
+# Switch back to node user
+USER node
+
 # Set working directory
 WORKDIR /app
-
-# Switch to node user
-USER node
 
 # Expose port
 EXPOSE 3001
 
 # Start script
-CMD ["/app/scripts/start.sh"]
+CMD ["/bin/bash", "/app/scripts/start.sh"]
