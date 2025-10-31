@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "=========================================="
-echo "🔁 MANUAL BACKUP TO BACKBLAZE B2"
+echo "💾 BACKUP TO BACKBLAZE B2"
 echo "=========================================="
 
 # Check if environment variables are set
@@ -14,13 +14,11 @@ fi
 echo "🔑 Authenticating to Backblaze B2..."
 /app/venv/bin/b2 authorize-account "$B2_ACCOUNT_ID" "$B2_ACCOUNT_KEY"
 
-# Perform backup
-echo "💾 Backing up data from /data to B2..."
-/app/venv/bin/b2 sync /data "b2://$B2_BUCKET_NAME/backups"
+# Perform backup using sync (recommended approach)
+echo "🔄 Syncing data to B2..."
+/app/venv/bin/b2 sync --replaceNewer /data/ "b2://$B2_BUCKET_NAME/backups/"
 
 echo "✅ Backup completed successfully!"
-echo "📊 Files in backup storage:"
-/app/venv/bin/b2 ls "$B2_BUCKET_NAME" --recursive
-
+echo "📦 Backup location: b2://$B2_BUCKET_NAME/backups/"
 echo ""
-echo "🚀 To restore later, run: /app/restore.sh"
+echo "🔄 To restore data, run: /app/restore.sh"
