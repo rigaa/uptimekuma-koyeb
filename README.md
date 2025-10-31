@@ -19,6 +19,28 @@ Deploy Uptime Kuma on Koyeb with automated database backup and restore to Backbl
 ## ⚡ Quick Deployment
 
 ### 1. Fork this Repository
+Click "Fork" button to create your copy of this repository.
+
+### 2. Backblaze B2 Setup
+
+1. Create Backblaze B2 account
+2. Create a storage bucket
+3. Generate Application Key with:
+   - Read & Write permissions
+   - Access to your bucket
+
+### 3. Deploy on Koyeb
+
+#### Method 1: Web Interface
+
+1. Go to [Koyeb Console](https://app.koyeb.com/)
+2. Click "Create App"
+3. Select "GitHub" → Choose this repository
+4. Set environment variables:
+   ```env
+   B2_ACCOUNT_ID=your_account_id
+   B2_ACCOUNT_KEY=your_application_key
+   B2_BUCKET_NAME=your_bucket_name
 
 
 🔧 Environment Variables
@@ -101,7 +123,6 @@ start.sh
 Main application entry point
 
 Auto-restores database if missing
-
 Starts Uptime Kuma server
 
 backup.sh
@@ -160,25 +181,4 @@ Verify file integrity
 
 
 
-Click "Fork" button to create your copy of this repository.
 
-### 2. Backblaze B2 Setup
-
-1. Create Backblaze B2 account
-2. Create a storage bucket
-3. Generate Application Key with:
-   - Read & Write permissions
-   - Access to your bucket
-
-### 3. Deploy on Koyeb
-
-#### Method 1: Web Interface
-
-1. Go to [Koyeb Console](https://app.koyeb.com/)
-2. Click "Create App"
-3. Select "GitHub" → Choose this repository
-4. Set environment variables:
-   ```env
-   B2_ACCOUNT_ID=your_account_id
-   B2_ACCOUNT_KEY=your_application_key
-   B2_BUCKET_NAME=your_bucket_name
