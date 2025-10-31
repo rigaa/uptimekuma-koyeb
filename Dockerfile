@@ -17,14 +17,12 @@ RUN python3 -m venv /app/venv
 # Install B2 CLI in virtual environment
 RUN /app/venv/bin/pip install --no-cache-dir b2
 
-# Create scripts directory
+# Create start script directly
 RUN mkdir -p /app/scripts
-
-# Copy scripts
-COPY scripts/* /app/scripts/
-
-# Make scripts executable
-RUN chmod +x /app/scripts/*.sh
+RUN echo '#!/bin/bash\n\
+# Start Uptime Kuma\n\
+node server/server.js\n\
+' > /app/scripts/start.sh && chmod +x /app/scripts/start.sh
 
 # Switch back to node user
 USER node
