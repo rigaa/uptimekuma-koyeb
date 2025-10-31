@@ -1,30 +1,23 @@
 #!/bin/bash
-echo "=========================================="
-echo "🔁 MANUAL RESTORE FROM BACKBLAZE B2"
-echo "=========================================="
 
-# Check if environment variables are set
-if [ -z "$B2_ACCOUNT_ID" ] || [ -z "$B2_ACCOUNT_KEY" ] || [ -z "$B2_BUCKET_NAME" ]; then
-    echo "❌ ERROR: Missing environment variables"
-    echo "Please set: B2_ACCOUNT_ID, B2_ACCOUNT_KEY, B2_BUCKET_NAME"
-    exit 1
-fi
+echo "🔁 Restoring UptimeKuma database from B2..."
 
-# Use virtual environment for B2 CLI
-echo "🔑 Authenticating to Backblaze B2..."
+# Authorize B2
 /app/venv/bin/b2 authorize-account "$B2_ACCOUNT_ID" "$B2_ACCOUNT_KEY"
 
-# Check B2 version
-echo "🔍 B2 CLI Version:"
-/app/venv/bin/b2 version
+# Restore hanya file kuma.db saja
+echo "📥 Downloading kuma.db from B2..."
+if /app/venv/bin/b2 download-file-by-name "$B2_BUCKET_NAME" "backups/kuma.db" "/data/kuma.db"; then
+    echo "✅ Database restored successfully!"
+    
+    # Hapus file -wal dan -shm untuk fresh start
+    echo "🧹 Cleaning temporary database files..."
+    rm -f /data/kuma.db-wal /data/kuma.db-shm 2>/dev/null
+    
+    echo "📊 Restored file info:"
+    ls -la /data/kuma.db
+else
+    echo "❌ No backup found or restore failed. Starting with fresh database."
+fi
 
-# Perform restore using simple sync (without unsupported flags)
-echo "🔄 Restoring data from B2 to /data..."
-/app/venv/bin/b2 sync "b2://$B2_BUCKET_NAME/backups/" /data
-
-echo "✅ Restore completed successfully!"
-echo "📊 Files restored to /data:"
-ls -la /data/
-
-echo ""
-echo "💾 To backup again, run: /app/backup.sh"
+echo "🎯 Restore process completed!"
