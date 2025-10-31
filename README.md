@@ -22,37 +22,3 @@ uptimekuma-koyeb/
 ├── Dockerfile
 ├── docker-compose.yml
 └── README.md
-
-text
-
-## Setup Instructions
-
-### 1. Environment Variables
-
-Set these environment variables in your Koyeb deployment:
-
-```env
-B2_ACCOUNT_ID=your_account_id_here
-B2_ACCOUNT_KEY=your_application_key_here
-B2_BUCKET_NAME=your_bucket_name_here
-2. Backblaze B2 Configuration
-Create a Backblaze B2 account
-
-Create a bucket for backups
-
-Generate Application Key with read/write permissions
-
-3. Koyeb Deployment
-Method 1: Using Koyeb Web Interface
-Go to Koyeb Control Panel
-
-Click "Create App"
-
-Select "GitHub" as deployment method
-
-Choose your repository
-
-Set environment variables
-
-Deploy
-
