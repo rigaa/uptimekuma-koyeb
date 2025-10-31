@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "=========================================="
-echo "💾 BACKUP TO BACKBLAZE B2"
+echo "🔁 MANUAL RESTORE FROM BACKBLAZE B2"
 echo "=========================================="
 
 # Check if environment variables are set
@@ -14,15 +14,17 @@ fi
 echo "🔑 Authenticating to Backblaze B2..."
 /app/venv/bin/b2 authorize-account "$B2_ACCOUNT_ID" "$B2_ACCOUNT_KEY"
 
-# Check B2 version and available options
+# Check B2 version
 echo "🔍 B2 CLI Version:"
 /app/venv/bin/b2 version
 
-# Perform backup using simple sync (without unsupported flags)
-echo "🔄 Syncing data to B2..."
-/app/venv/bin/b2 sync /data/ "b2://$B2_BUCKET_NAME/backups/"
+# Perform restore using simple sync (without unsupported flags)
+echo "🔄 Restoring data from B2 to /data..."
+/app/venv/bin/b2 sync "b2://$B2_BUCKET_NAME/backups/" /data
 
-echo "✅ Backup completed successfully!"
-echo "📦 Backup location: b2://$B2_BUCKET_NAME/backups/"
+echo "✅ Restore completed successfully!"
+echo "📊 Files restored to /data:"
+ls -la /data/
+
 echo ""
-echo "🔄 To restore data, run: /app/restore.sh"
+echo "💾 To backup again, run: /app/backup.sh"
