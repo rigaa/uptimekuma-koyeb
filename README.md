@@ -20,6 +20,146 @@ Deploy Uptime Kuma on Koyeb with automated database backup and restore to Backbl
 
 ### 1. Fork this Repository
 
+
+🔧 Environment Variables
+Variable	Description	Required
+B2_ACCOUNT_ID	Backblaze B2 Account ID	✅
+B2_ACCOUNT_KEY	Backblaze B2 Application Key	✅
+B2_BUCKET_NAME	Backblaze B2 Bucket Name	✅
+
+📁 Project Structure
+text
+uptimekuma-koyeb/
+├── scripts/
+│   ├── start.sh           # Main startup script
+│   ├── backup.sh          # Automated backup
+│   ├── restore.sh         # Automated restore
+│   ├── manual-backup.sh   # Manual backup
+│   └── manual-restore.sh  # Manual restore
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+
+
+🔄 Backup & Restore
+Automated Operations
+Auto-restore on startup if database missing
+
+Backup runs during deployment
+
+Only kuma.db is backed up (excludes temporary files)
+
+
+Manual Commands
+bash
+# Manual backup with timestamp
+docker exec [container] /app/scripts/manual-backup.sh
+
+# Manual restore with backup selection
+docker exec [container] /app/scripts/manual-restore.sh
+
+Backup Files
+✅ Backed up: kuma.db (main database)
+
+❌ Not backed up: kuma.db-wal, kuma.db-shm, screenshots/, upload/
+
+
+🐳 Local Development
+Using Docker Compose
+bash
+git clone https://github.com/rigaa/uptimekuma-koyeb.git
+cd uptimekuma-koyeb
+
+# Set environment variables
+export B2_ACCOUNT_ID=your_id
+export B2_ACCOUNT_KEY=your_key
+export B2_BUCKET_NAME=your_bucket
+
+docker-compose up -d
+
+
+Using Docker
+bash
+docker run -d \
+  --name uptime-kuma \
+  -p 3001:3001 \
+  -v ./data:/app/data \
+  -e B2_ACCOUNT_ID=your_id \
+  -e B2_ACCOUNT_KEY=your_key \
+  -e B2_BUCKET_NAME=your_bucket \
+  ghcr.io/rigaa/uptimekuma-koyeb:1.2
+
+
+🌐 Access Application
+After deployment, access your Uptime Kuma at:
+
+text
+https://[your-app-name].koyeb.app
+
+🛠️ Scripts Overview
+start.sh
+Main application entry point
+
+Auto-restores database if missing
+
+Starts Uptime Kuma server
+
+backup.sh
+Backs up kuma.db to Backblaze B2
+
+Uses B2 CLI for upload
+
+Error handling and logging
+
+restore.sh
+Restores database from B2
+
+Cleans temporary files
+
+Status reporting
+
+manual-backup.sh
+Creates timestamped backups
+
+Lists available backups
+
+Interactive backup creation
+
+manual-restore.sh
+Shows backup versions
+
+Interactive restore process
+
+Backup selection
+
+❗ Troubleshooting
+Common Issues
+Backup Fails:
+
+Verify B2 credentials
+
+Check bucket permissions
+
+Test network connectivity
+
+Restore Fails:
+
+Confirm backup exists in B2
+
+Check /data directory permissions
+
+Verify disk space
+
+Database Issues:
+
+Use manual-restore.sh for recovery
+
+Check Koyeb application logs
+
+Verify file integrity
+
+
+
 Click "Fork" button to create your copy of this repository.
 
 ### 2. Backblaze B2 Setup
