@@ -14,7 +14,7 @@ fi
 echo "🔑 Authenticating to Backblaze B2..."
 /app/venv/bin/b2 authorize-account "$B2_ACCOUNT_ID" "$B2_ACCOUNT_KEY"
 
-# Perform backup using sync (recommended approach)
+# Perform backup using sync with --replaceNewer (not --overwrite)
 echo "🔄 Syncing data to B2..."
 /app/venv/bin/b2 sync --replaceNewer /data/ "b2://$B2_BUCKET_NAME/backups/"
 
