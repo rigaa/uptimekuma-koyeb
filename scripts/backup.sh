@@ -12,8 +12,6 @@ if [ -f "/app/data/kuma.db" ]; then
     # Upload file database
     if /app/venv/bin/b2 upload-file "$B2_BUCKET_NAME" "/app/data/kuma.db" "backups/kuma.db"; then
         echo "✅ Database backed up successfully!"
-        echo "📊 Backup file info:"
-        /app/venv/bin/b2 ls "$B2_BUCKET_NAME" backups/
     else
         echo "❌ Backup failed!"
         exit 1
