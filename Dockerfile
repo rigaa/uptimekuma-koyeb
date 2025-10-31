@@ -1,4 +1,4 @@
-FROM louislam/uptime-kuma:1
+FROM louislam/uptime-kuma:2.0.2
 
 # Switch to root untuk install dependencies
 USER root
