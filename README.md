@@ -37,7 +37,7 @@ Click "Fork" button to create your copy of this repository.
 2. Click "Create App"
 3. Select "GitHub" → Choose this repository
 4. Set environment variables:
-   ```env
+   
    B2_ACCOUNT_ID=your_account_id
    B2_ACCOUNT_KEY=your_application_key
    B2_BUCKET_NAME=your_bucket_name
