@@ -16,7 +16,7 @@ echo "🔑 Authenticating to Backblaze B2..."
 
 # Perform restore
 echo "🔄 Restoring data from B2 to /data..."
-/app/venv/bin/b2 sync "b2://$B2_BUCKET_NAME/backups" /data
+/app/venv/bin/b2 sync --overwrite "b2://$B2_BUCKET_NAME/backups" /data
 
 echo "✅ Restore completed successfully!"
 echo "📊 Files restored to /data:"
