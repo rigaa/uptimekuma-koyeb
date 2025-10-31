@@ -7,15 +7,12 @@ echo "🔁 Restoring UptimeKuma database from B2..."
 
 # Restore hanya file kuma.db saja
 echo "📥 Downloading kuma.db from B2..."
-if /app/venv/bin/b2 download-file-by-name "$B2_BUCKET_NAME" "backups/kuma.db" "/data/kuma.db"; then
+if /app/venv/bin/b2 download-file-by-name "$B2_BUCKET_NAME" "backups/kuma.db" "/app/data/kuma.db"; then
     echo "✅ Database restored successfully!"
     
     # Hapus file -wal dan -shm untuk fresh start
     echo "🧹 Cleaning temporary database files..."
-    rm -f /data/kuma.db-wal /data/kuma.db-shm 2>/dev/null
-    
-    echo "📊 Restored file info:"
-    ls -la /data/kuma.db
+    rm -f /app/data/kuma.db-wal /app/data/kuma.db-shm 2>/dev/null
 else
     echo "❌ No backup found or restore failed. Starting with fresh database."
 fi

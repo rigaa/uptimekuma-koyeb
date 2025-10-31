@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo "🚀 Starting UptimeKuma with B2 Backup..."
+
+# Use virtual environment for B2 CLI
+/app/venv/bin/b2 authorize-account "$B2_ACCOUNT_ID" "$B2_ACCOUNT_KEY"
+
+# Restore data if empty
+if [ ! -f "/app/data/kuma.db" ]; then
+    echo "🔁 Restoring from B2..."
+    /app/venv/bin/b2 download-file-by-name "$B2_BUCKET_NAME" "backups/kuma.db" "/app/data/kuma.db" || echo "ℹ️  No backup found, fresh start"
+fi
+
+# Start UptimeKuma
+echo "🎯 Starting UptimeKuma..."
+exec node server/server.js
