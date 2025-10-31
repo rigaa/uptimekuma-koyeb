@@ -14,7 +14,7 @@ fi
 echo "🔑 Authenticating to Backblaze B2..."
 /app/venv/bin/b2 authorize-account "$B2_ACCOUNT_ID" "$B2_ACCOUNT_KEY"
 
-# Perform restore
+# Perform restore (gunakan --overwrite untuk force restore)
 echo "🔄 Restoring data from B2 to /data..."
 /app/venv/bin/b2 sync --overwrite "b2://$B2_BUCKET_NAME/backups" /data
 
