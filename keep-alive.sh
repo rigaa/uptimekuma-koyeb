@@ -14,6 +14,6 @@ while true; do
         curl -f -s -o /dev/null --max-time 10 "https://${KOYEB_APP_NAME}.koyeb.app" && echo "App ping sent" || echo "App ping failed"
     fi
     
-    # Wait 4 minutes (240 seconds)
-    sleep 240
+    # Wait 2 minutes (240 seconds)
+    sleep 120
 done
